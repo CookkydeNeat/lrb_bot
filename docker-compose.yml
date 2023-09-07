@@ -1,0 +1,10 @@
+version: '3.0'
+services:
+  bot:
+    build: .
+    env_file:
+      - .env
+    container_name: lrb_bot
+    volumes:
+      - .:/app 
+    command: python __main__.py
