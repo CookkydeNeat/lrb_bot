@@ -8,4 +8,4 @@ services:
     volumes:
       - .:/app 
     working_dir: /app
-    command: node run start
+    command: npm run start
