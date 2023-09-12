@@ -7,4 +7,5 @@ services:
     container_name: lrb_bot
     volumes:
       - .:/app 
-    command: cd /app && node run start
+    working_dir: /app
+    command: node run start
