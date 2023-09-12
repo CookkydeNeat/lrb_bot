@@ -1,18 +1,16 @@
 import discord
-from insta import*
+import old_python.insta as insta
 import sys
 import time
+from dotenv import load_dotenv
 import os
 
+load_dotenv()
 intents = discord.Intents.default()
 intents.message_content = True
 
 bot = discord.Client(intents=intents)
 
-@bot.event
-async def on_ready():
-    await bot.change_presence(activity=discord.Game(name="uwu"))
-    
 class MyView(discord.ui.View): # Create a class called MyView that subclasses discord.ui.View
             @discord.ui.button(label="Click me!", style=discord.ButtonStyle.primary, emoji="😎") # Create a button with the label "😎 Click me!" with color Blurple
             async def button_callback(self, button, interaction):
@@ -20,11 +18,13 @@ class MyView(discord.ui.View): # Create a class called MyView that subclasses di
 
 @bot.event
 async def on_ready():
+    await bot.change_presence(activity=discord.Game(name="uwu"))
+    insta.main()
     print(f'{bot.user} is online !')
 
 @bot.event
 async def on_message(message):
-    if message.author == bot.user:
+    if message.author == bot.user or bot.user == None:
         return
 
     if message.content.startswith('!hello'):
@@ -82,4 +82,4 @@ async def on_message(message):
         
     
 
-bot.run(os.getenv("TOKEN"))
+bot.run(os.environ.get("TOKEN"))

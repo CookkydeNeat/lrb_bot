@@ -7,4 +7,4 @@ services:
     container_name: lrb_bot
     volumes:
       - .:/app 
-    command: python __main__.py
+    command: node run start

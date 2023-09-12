@@ -1,0 +1,29 @@
+{
+  "name": "lrb_bot",
+  "version": "1.0.0",
+  "description": "A simple bot which fetch multiple instagram accounts and send new posts into a discord channel",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CookkydeNeat/lrb_bot.git"
+  },
+  "author": "Cookky, Bobby",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CookkydeNeat/lrb_bot/issues"
+  },
+  "homepage": "https://github.com/CookkydeNeat/lrb_bot#readme",
+  "dependencies": {
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.3.1",
+    "puppeteer": "^21.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
