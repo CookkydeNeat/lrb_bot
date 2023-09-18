@@ -1,12 +1,14 @@
 # Use an official Python runtime as the base image
-FROM node:latest
+FROM python:latest
     
 COPY . /app
 
 WORKDIR /app
 
-RUN npm install --production  
-    
+  
+RUN pip install requests, json, time, discord, sys, asyncio, threading, nest_asyncio, math, pyppeteer
+
+
 # Add labels for better maintainability
 LABEL maintainer="Cookky <cookky.neat@gmail.com>"
 LABEL version="1.0"

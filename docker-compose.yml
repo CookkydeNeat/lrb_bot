@@ -8,4 +8,4 @@ services:
     volumes:
       - .:/app 
     working_dir: /app
-    command: npm run start
+    command: python3 bot.py
