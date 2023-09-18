@@ -9,3 +9,4 @@ services:
       - .:/app 
     working_dir: /app
     command: python3 bot.py
+    restart: unless-stopped
