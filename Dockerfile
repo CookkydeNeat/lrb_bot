@@ -6,8 +6,7 @@ COPY . /app
 WORKDIR /app
 
   
-RUN pip install requests, json, time, discord, sys, asyncio, threading, nest_asyncio, math, pyppeteer, os, dotenv
-
+RUN pip install requests discord asyncio nest_asyncio  pyppeteer python-dotenv
 
 # Add labels for better maintainability
 LABEL maintainer="Cookky <cookky.neat@gmail.com>"
