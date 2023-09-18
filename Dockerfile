@@ -6,7 +6,7 @@ COPY . /app
 WORKDIR /app
 
   
-RUN pip install requests, json, time, discord, sys, asyncio, threading, nest_asyncio, math, pyppeteer
+RUN pip install requests, json, time, discord, sys, asyncio, threading, nest_asyncio, math, pyppeteer, os, dotenv
 
 
 # Add labels for better maintainability
