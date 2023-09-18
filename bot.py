@@ -137,7 +137,7 @@ async def lookup_refresh():
             if post < counters[i]:
                 counters[i] -= 1
                 asyncio.run(lookup_refresh(i))
-            await asyncio.sleep(180)
+            await asyncio.sleep(5)
     print(f'lookup tool =====> Turn have been complete. Going back to 0.')
 
 #----------------------------------------- important utilities -----------------------------------------#
