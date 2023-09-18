@@ -3,7 +3,8 @@
 from discord import*
 from insta import*
 from setup import*
-import requests, json, time, discord, sys, asyncio, threading, nest_asyncio, math
+from dotenv import*
+import requests, json, time, discord, sys, asyncio, threading, nest_asyncio, math, os
 nest_asyncio.apply()
 
 intents = discord.Intents.default()
@@ -15,59 +16,69 @@ tree = app_commands.CommandTree(bot)
 
 at = '@'
 an = '&'
+load_dotenv()
+token = os.getenv("TOKEN")
 
 # async def slash3(interaction: discord.Interaction, number: int):   
 
 #----------------------------------------- slash commands -----------------------------------------#
 
-#hello command
-@tree.command(name = "hello", description = "Say you hello", guild=discord.Object(id=1026168999173697647))
+#hello command -----------------------------------------
+@tree.command(name = "hello", description = "Say you hello", guild=discord.Object(id=server_id))
 async def first_command(interaction):
     await interaction.response.send_message(f"hello <{at}{interaction.user.id}>")
     print(f'/hello =====> "hello" sent to {interaction.user}')
 
-#uwu command
-@tree.command(name = "uwu", description = "Say you uwu", guild=discord.Object(id=1026168999173697647)) 
+
+#uwu command -----------------------------------------
+@tree.command(name = "uwu", description = "Say you uwu", guild=discord.Object(id=server_id)) 
 async def first_command(interaction):
     await interaction.response.send_message("UwU!")
     print(f'/uwu =====> "uwu" sent to {interaction.user}')
-    
-#shutdown command
-@tree.command(name = "shutdown", description = "kill da bot", guild=discord.Object(id=1026168999173697647)) 
+
+   
+#shutdown command -----------------------------------------
+@tree.command(name = "shutdown", description = "kill da bot", guild=discord.Object(id=server_id)) 
 async def first_command(interaction):
     await interaction.response.send_message('Goodbye, sir !')
     sys.exit()
-        
-#info command
-@tree.command(name = "info", description = "get some infos about the bot", guild=discord.Object(id=1026168999173697647)) 
+
+
+#info command -----------------------------------------
+@tree.command(name = "info", description = "get some infos about the bot", guild=discord.Object(id=server_id)) 
 async def first_command(interaction):
     await interaction.response.send_message(f'Hello <{at}{interaction.user.id}>, Im active. My ping is {math.floor(bot.latency*1000)} ms. Have a nice day !')
     print(f'/info =====> infos sent with {round(bot.latency,6)*1000} ms')
-    
-#start command
-@tree.command(name = "start", description = "start the lookup tool", guild=discord.Object(id=1026168999173697647)) 
+
+
+#start command -----------------------------------------
+@tree.command(name = "start", description = "start the lookup tool", guild=discord.Object(id=server_id)) 
 async def first_command(interaction):
     await interaction.response.send_message('Look-up tool is now active.')
     print(f'/start =====> lookup tool started')
     asyncio.run(lookup_refresh())
 
-#avatar command
-@tree.command(name = "avatar", description = "Return your avatar", guild=discord.Object(id=1026168999173697647)) 
-async def first_command(interaction):
+
+#avatar command -----------------------------------------
+@tree.command(name = "avatar", description = "Return your avatar", guild=discord.Object(id=server_id)) 
+async def first_command(interaction: discord.Interaction, account: str):
     await interaction.response.send_message(interaction.user.avatar.url)
     print(f'/avatar =====> avatar sent to {interaction.user}')
-    
-#insta command
-@tree.command(name = "insta", description = "Return any account's post number", guild=discord.Object(id=1026168999173697647)) 
+
+
+#insta command -----------------------------------------
+@tree.command(name = "insta", description = "Return any account's post number", guild=discord.Object(id=server_id)) 
 async def first_command(interaction: discord.Interaction, account: str):
+    target = get_info(account)
     if target == None:
         await interaction.response.send_message("This account does not exist, please try again.")
     else:  
         await interaction.response.send_message(f'{account} a fait {target} posts.')
     print(f'/insta =====> Posts sent for account {account}')
-    
-#test command
-@tree.command(name = "test", description = "start the lookup tool", guild=discord.Object(id=1026168999173697647)) 
+
+
+#test command -----------------------------------------
+@tree.command(name = "test", description = "start the lookup tool", guild=discord.Object(id=server_id)) 
 async def first_command(interaction: discord.Interaction, lenght: int):
     average = 0
     if 0 < lenght <= 100:
@@ -85,9 +96,10 @@ async def first_command(interaction: discord.Interaction, lenght: int):
         print(f'/test =====> test finished with an avarage of {math.floor(average)} ms')
     else:
         await interaction.response.send_message(f'The value must be beetween 1 and 100.')
-    
-#setup command
-@tree.command(name = "setup", description = "setup the targets of instagram detection", guild=discord.Object(id=1026168999173697647)) 
+
+
+#setup command -----------------------------------------
+@tree.command(name = "setup", description = "setup the targets of instagram detection", guild=discord.Object(id=server_id)) 
 async def first_command(interaction):
     setup_started = await interaction.response.send_message('Setup started, please wait')
     print(f'/setup =====> setup started ({len(accounts)} targets)')
@@ -107,7 +119,8 @@ async def first_command(interaction):
 async def on_ready():
     print(f'{bot.user} is online !')
     await bot.change_presence(activity=discord.Game(name="being coded"))
-    await tree.sync(guild=discord.Object(id=1026168999173697647))
+    await tree.sync(guild=discord.Object(id=server_id))
+    print(f"Logged in with:{token}")
     
 async def lookup_refresh():
     await bot.wait_until_ready()

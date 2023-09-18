@@ -1,16 +1,16 @@
 #----------------------------------------- values that can be changed -----------------------------------------#
 
-#def instagram accounts slots
+#def instagram accounts slots - please enter the target instagram account(s) you want to use in the lookup tool
 accounts = ["la_potato_squad", "instagram", "lpo_remibelleau", "radio2b_", "mdl_lrb", "lrb_cord"]
 
-#def instagram post counters slots
-counters = [0]*len(accounts)
+#server - please copy the target server id here
+server_id = 1026168999173697647
 
-#notification channel
+#notification channel - please copy the target channel id here for instagram notifications
 channel_id = 1136689538484424776
 
-#role mention
+#role mention - please copy the role id that you want to mention in notifications here
 role_id = 1151520022439665696
 
-#bot token
-token = 'MTE0ODk1NDI2NDkyNDg2MDQ4Ng.GyoWrJ.KDBmACSskIt1Z8vQJgjqcSa96DeD6_8ug7P23w'
+#def instagram post counters slots - automatic, please do not change.
+counters = [0]*len(accounts)
