@@ -174,7 +174,7 @@ async def lookup_refresh(interval, stop_event):
         stop_event.set()  # Set the stop event to stop the task
     except Exception as e:
         print("Something went wrong:", e)
-        await channel.send("Something went wrong:"+e)
+        await channel.send("Something went wrong:"+repr(e))
         await channel.send("Lookup tool stopped")
 
 
