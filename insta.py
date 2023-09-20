@@ -16,6 +16,8 @@ def get_info(username):
             if account.text[location+i].isdigit():
                 result = result + account.text[location+i]
         return int(result)
+    else:
+        return float("inf")
     
 
 # get post function: get the las post of any account
@@ -29,6 +31,7 @@ async def get_post(username):
     cont = await page.content()
     await browser.close()
     if "/p/" not in cont:
+        print(f"Unable to retrieve post count for {username}")
         return ("An error has occured, please retry in a few minutes.")
     else:
         location = cont.index("/p/")
