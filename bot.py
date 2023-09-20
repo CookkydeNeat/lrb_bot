@@ -180,7 +180,7 @@ async def lookup_refresh(interval, stop_event):
 
 
 async def periodic_task():
-    interval = 20  # Run the task every 5 minutes
+    interval = 60*5  # Run the task every 5 minutes
     stop_event = asyncio.Event()
     
     # Create a task for the periodic task
