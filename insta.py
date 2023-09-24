@@ -2,6 +2,7 @@
 
 from setup import*
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 import requests, asyncio, nest_asyncio, time
 nest_asyncio.apply()
 
@@ -19,42 +20,20 @@ def get_info(username):
             if account.text[location+i].isdigit():
                 result = result + account.text[location+i]
         return int(result)
-    else:
-        return float("inf")
     
 
 # get post function: get the las post of any account      
 async def get_post(user):
     url = f"https://www.instagram.com/{user}"
     result = ""
-<<<<<<< HEAD
     browser = webdriver.Chrome()
     browser.get(url)
     time.sleep(2)
     html = browser.page_source
     if "/p/" not in html:
-=======
-    browser = await pyppeteer.launch(headless=True)
-    page = await browser.newPage()
-    await page.goto(pageurl)
-    await asyncio.sleep(1)
-    cont = await page.content()
-    await browser.close()
-    if "/p/" not in cont:
-        print(f"Unable to retrieve post count for {username}")
-<<<<<<< HEAD
->>>>>>> 5fe87268faa8e50f64e6c82e2a704c0309993219
-=======
->>>>>>> 5fe87268faa8e50f64e6c82e2a704c0309993219
         return ("An error has occured, please retry in a few minutes.")
     else:
         location = html.index("/p/")
         for i in range(14):
             result = result + html[location+i]
         return(f'https://www.instagram.com{result}/')
-        
-    
-
-
-
-
