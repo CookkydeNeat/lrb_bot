@@ -2,13 +2,10 @@
 
 from setup import*
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-import requests, asyncio, nest_asyncio, time
+import requests, asyncio, nest_asyncio
 nest_asyncio.apply()
 
 #----------------------------------------- scrapping functions -----------------------------------------#
-
-# INSTA_URL = 
 
 # get info function: get how many post does an instagram account made
 def get_info(username):
@@ -19,7 +16,7 @@ def get_info(username):
         for i in range(10):
             if account.text[location+i].isdigit():
                 result = result + account.text[location+i]
-        return int(result)
+    return int(result)
     
 
 # get post function: get the las post of any account      
@@ -28,7 +25,7 @@ async def get_post(user):
     result = ""
     browser = webdriver.Chrome()
     browser.get(url)
-    time.sleep(2)
+    asyncio.sleep(2)
     html = browser.page_source
     if "/p/" not in html:
         return ("An error has occured, please retry in a few minutes.")

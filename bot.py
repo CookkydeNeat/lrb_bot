@@ -1,12 +1,12 @@
 #----------------------------------------- import modules -----------------------------------------#
 
-import os
 from discord import*
-from insta import*
+from insta import get_info, get_post
 from setup import*
 from random import*
 import dotenv
-import requests, json, time, discord, sys, asyncio, threading, nest_asyncio, math
+import os
+import time, discord, sys, asyncio, threading, nest_asyncio, math
 nest_asyncio.apply()
 dotenv.load_dotenv()
 intents = discord.Intents.default()
@@ -91,7 +91,7 @@ async def insta_command(interaction: discord.Interaction, account: str):
     if get_posts == None:
         await interaction.response.send_message(f" \"{account}\" does not exist, please try again.")
     else:  
-        await interaction.response.send_message(f'{account} a fait {get_posts} posts.')
+        await interaction.response.send_message(f'{account} a fait {get_posts} post(s).')
     print(f'/insta =====> Posts sent for account {account}')
     
     
@@ -146,6 +146,7 @@ async def on_ready():
     channel_logs = log_channel_id
     
 async def lookup_refresh():
+    global post
     await bot.wait_until_ready()
     channel = bot.get_channel(notification_channel_id)
     while True:
@@ -160,11 +161,10 @@ async def lookup_refresh():
             if post < counters[i]:
                 counters[i] -= 1
             await asyncio.sleep(randint(counter_time_min, counter_time_max))
-        print(f'lookup tool =====> Turn have been complete. Going back to 0.')
 
 
 #----------------------------------------- important utilities -----------------------------------------#
-  
+
 loop_thread = threading.Thread(target=lambda: asyncio.run(lookup_refresh()))
 loop_thread.start()
 token = os.getenv("TOKEN")

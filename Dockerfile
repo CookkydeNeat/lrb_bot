@@ -5,17 +5,7 @@ COPY . /app
 
 WORKDIR /app
 
-  
-<<<<<<< HEAD
-<<<<<<< HEAD
-RUN pip install requests, json, time, discord, sys, asyncio, threading, nest_asyncio, math, os, dotenv, selenium
-
-=======
-RUN pip install requests discord asyncio nest_asyncio  pyppeteer python-dotenv
->>>>>>> 5fe87268faa8e50f64e6c82e2a704c0309993219
-=======
-RUN pip install requests discord asyncio nest_asyncio  pyppeteer python-dotenv
->>>>>>> 5fe87268faa8e50f64e6c82e2a704c0309993219
+RUN pip install requests, time, discord, sys, asyncio, threading, nest_asyncio, math, os, dotenv, selenium
 
 # Add labels for better maintainability
 LABEL maintainer="Cookky <cookky.neat@gmail.com>"
