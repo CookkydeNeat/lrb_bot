@@ -5,7 +5,7 @@ COPY . /app
 
 WORKDIR /app
   
-RUN pip install requests json time discord sys asyncio threading nest_asyncio math os python-dotenv selenium
+RUN pip install requests discord asyncio threading _asyncio python-dotenv selenium
 
 # Add labels for better maintainability
 LABEL maintainer="Cookky <cookky.neat@gmail.com>"
