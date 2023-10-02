@@ -23,5 +23,5 @@ counter_time_min = 15
 counter_time_max = 30
 
 #chrome.exe path 
-chrome_path = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+chrome_path = "/usr/bin/google-chrome"
 
