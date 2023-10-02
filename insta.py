@@ -2,7 +2,7 @@
 
 from setup import*
 from selenium import webdriver
-import requests, asyncio, nest_asyncio
+import requests, asyncio, nest_asyncio, pyppeteer
 nest_asyncio.apply()
 
 #----------------------------------------- scrapping functions -----------------------------------------#
@@ -21,16 +21,19 @@ def get_info(username):
 
 # get post function: get the las post of any account      
 async def get_post(user):
-    url = f"https://www.instagram.com/{user}"
+    pageurl = f"https://www.instagram.com/{username}"
     result = ""
-    browser = webdriver.Chrome()
-    browser.get(url)
-    asyncio.sleep(2)
-    html = browser.page_source
-    if "/p/" not in html:
+    browser = await pyppeteer.launch({"headless": True}, executablePath= chrome_path)
+    page = await browser.newPage()
+    await page.goto(pageurl)
+    await asyncio.sleep(2)
+    cont = await page.content()
+    await browser.close()
+    if "/p/" not in cont:
         return ("An error has occured, please retry in a few minutes.")
     else:
-        location = html.index("/p/")
+        location = cont.index("/p/")
         for i in range(14):
-            result = result + html[location+i]
+            result = result + cont[location+i]
         return(f'https://www.instagram.com{result}/')
+username = ""

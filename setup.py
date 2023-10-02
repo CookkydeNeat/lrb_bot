@@ -22,3 +22,6 @@ role_id = 1151520022439665696
 counter_time_min = 15
 counter_time_max = 30
 
+#chrome.exe path 
+chrome_path = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+
