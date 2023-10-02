@@ -27,6 +27,7 @@ setup = False
 async def hello_command(interaction):
     await interaction.response.send_message(f"hello <{at}{interaction.user.id}>")
     print(f'/hello =====> "hello" sent to {interaction.user}')
+    asyncio.run(logs_embed(f"Logs : /hello",f"====> \"hello\" sent to {interaction.user}"))
 
 
 #uwu command --------------------------------------------------------------
@@ -35,6 +36,7 @@ async def hello_command(interaction):
 async def uwu_command(interaction):
     await interaction.response.send_message("UwU!")
     print(f'/uwu =====> "uwu" sent to {interaction.user}')
+    asyncio.run(logs_embed(f"Logs : /uwu",f"====> \"uwu\" sent to {interaction.user}"))
     
     
 #shutdown command --------------------------------------------------------------
@@ -42,6 +44,7 @@ async def uwu_command(interaction):
 @tree.command(name = "shutdown", description = "kill da bot", guild=discord.Object(id=server_id)) 
 async def shutdown_command(interaction):
     await interaction.response.send_message('Goodbye, sir !')
+    asyncio.run(logs_embed(f"Logs : /shutdown",f"====> bot is now offline"))
     sys.exit()
     
         
@@ -55,6 +58,7 @@ async def info_command(interaction):
     else:
         await interaction.response.send_message(f'Hello <{at}{interaction.user.id}>, Im active. My ping is {math.floor(bot.latency*1000)} ms. \n Lookup tool is enabled \n Have a nice day !')
     print(f'/info =====> infos sent with {round(bot.latency,6)*1000} ms')
+    asyncio.run(logs_embed(f"Logs : /info",f"====> infos sent with {round(bot.latency,6)*1000} ms"))
     
     
 #start command --------------------------------------------------------------
@@ -66,9 +70,11 @@ async def test_command(interaction):
     if setup == False:
         await interaction.response.send_message('Please setup targets before using the lookup tool.')
         print(f'/start =====> lookup tool couldn\'t be started')
+        asyncio.run(logs_embed(f"Logs : /start",f"====> lookup tool couldn\'t be started"))
     else:
         await interaction.response.send_message('Look-up tool is now active.')
         print(f'/start =====> lookup tool started')
+        asyncio.run(logs_embed(f"Logs : /start",f"====> lookup tool started"))
         lookup = True
         asyncio.run(lookup_refresh())
     
@@ -76,15 +82,17 @@ async def test_command(interaction):
 #avatar command --------------------------------------------------------------
     
 @tree.command(name = "avatar", description = "Return your avatar", guild=discord.Object(id=server_id)) 
-async def avatar_command(interaction):
+async def avatar_command(interaction): 
     await interaction.response.send_message(interaction.user.avatar.url)
     print(f'/avatar =====> avatar sent to {interaction.user}')
+    asyncio.run(logs_embed(f"Logs : /avatar",f"====> avatar sent to {interaction.user}"))
     
 #dev_command command --------------------------------------------------------------
     
 @tree.command(name = "dev_command", description = "Return your avatar", guild=discord.Object(id=server_id)) 
 async def dev_command(interaction):
     ...
+        
     
 #post command --------------------------------------------------------------
     
@@ -96,6 +104,8 @@ async def post_command(interaction: discord.Interaction, account: str):
         await interaction.channel.send(f'Cet utilisateur n\'existe pas ou n\'a pas fait de post.')
     else:
         await interaction.channel.send(f'Voici le dernier post de *{account}* : {last_post}')
+    print(f'/insta =====> Last post of {account} sent') 
+    asyncio.run(logs_embed(f"Logs : /post",f"====> last post of {account} sent"))
     
     
 #insta command --------------------------------------------------------------
@@ -108,6 +118,7 @@ async def insta_command(interaction: discord.Interaction, account: str):
     else:  
         await interaction.response.send_message(f'{account} a fait {get_posts} posts.')
     print(f'/insta =====> Posts sent for account {account}')
+    asyncio.run(logs_embed(f"Logs : /insta",f"====> posts sent for account *{account}*"))
     
     
 #test command --------------------------------------------------------------
@@ -118,6 +129,7 @@ async def test_command(interaction: discord.Interaction, lenght: int):
     if 0 < lenght <= 100:
         await interaction.response.send_message('Pinging...')
         print(f'/test =====> test started with lenght {lenght}')
+        asyncio.run(logs_embed(f"Logs : /test",f"====> test started with lenght {lenght}"))
         for i in range(lenght):
             start_time = time.time()
             await interaction.edit_original_response(content=f'Pinging {i+1} on {lenght}...')
@@ -127,7 +139,8 @@ async def test_command(interaction: discord.Interaction, lenght: int):
             average = average + latency
         average = average / lenght  
         await interaction.channel.send(f'The test is finished ! <{at}{interaction.user.id}>, our average ping is {math.floor(average)}ms.')   
-        print(f'/test =====> test finished with an avarage of {math.floor(average)} ms')
+        print(f'/test =====> test finished with an avarage of {math.floor(average)} ms') 
+        asyncio.run(logs_embed(f"Logs : /test",f"====> test finished with an avarage of {math.floor(average)} ms"))
     else:
         await interaction.response.send_message(f'The value must be beetween 1 and 100.')
         
@@ -139,6 +152,7 @@ async def setup_command(interaction):
     global setup
     setup_started = await interaction.response.send_message('Setup started, please wait')
     print(f'/setup =====> setup started ({len(accounts)} targets)')
+    asyncio.run(logs_embed(f"Logs : /setup",f"====> setup started ({len(accounts)} targets)"))
     loop = len(accounts)
     for i in range(loop):
         target_account = accounts[i]
@@ -149,6 +163,7 @@ async def setup_command(interaction):
     await interaction.channel.send(f' <{at}{interaction.user.id}>, all targets have been setup.')
     setup = True
     print(f'/setup =====> setup finished')
+    asyncio.run(logs_embed(f"Logs : /setup",f"====> setup finished"))
     
 
 #----------------------------------------- bot functions -----------------------------------------#
@@ -168,15 +183,26 @@ async def lookup_refresh():
             target_account = accounts[i]
             target_counter = counters[i]
             print(f'lookup tool =====> user = {target_account}, counter = {target_counter}.')
+            asyncio.run(logs_embed(f"Logs : lookup tool",f"====> user = {target_account}, counter = {target_counter}"))
             post = get_info(target_account)
             if post > counters[i]:
                 await channel.send(f' {target_account} a une nouvelle publication ! \n {asyncio.run(get_post(target_account))}')
+                asyncio.run(logs_embed(f"Logs : lookup tool",f"====> {target_account} a une nouvelle publication"))
                 counters[i] += 1
             if post < counters[i]:
                 counters[i] -= 1
             await asyncio.sleep(randint(counter_time_min, counter_time_max))
         print(f'lookup tool =====> Turn have been complete. Going back to 0.')
-
+        asyncio.run(logs_embed(f"Logs : lookup tool",f"====> turn have been complete. Going back to 0."))
+        
+async def logs_embed(command,text):
+        t = time.localtime()
+        current_time = time.strftime("%H:%M:%S", t)
+        log_channel = bot.get_channel(log_channel_id)
+        embedVar = discord.Embed(title=command, description=text, color=0x0000ff)
+        embedVar.set_footer(text=current_time)
+        await log_channel.send(embed=embedVar)
+        return
 
 #----------------------------------------- important utilities -----------------------------------------#
   
