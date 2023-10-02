@@ -1,14 +1,12 @@
 #----------------------------------------- import modules -----------------------------------------#
 
 from discord import*
-from insta import get_info, get_post
+from insta import*
 from setup import*
 from random import*
-import dotenv
-import os
-import time, discord, sys, asyncio, threading, nest_asyncio, math
+import time, discord, sys, asyncio, threading, nest_asyncio, math, os
 nest_asyncio.apply()
-dotenv.load_dotenv()
+
 intents = discord.Intents.default()
 intents.message_content = True
 bot = discord.Client(intents=intents)
@@ -82,6 +80,23 @@ async def avatar_command(interaction):
     await interaction.response.send_message(interaction.user.avatar.url)
     print(f'/avatar =====> avatar sent to {interaction.user}')
     
+#dev_command command --------------------------------------------------------------
+    
+@tree.command(name = "dev_command", description = "Return your avatar", guild=discord.Object(id=server_id)) 
+async def dev_command(interaction):
+    ...
+    
+#post command --------------------------------------------------------------
+    
+@tree.command(name = "post", description = "Get the last post of any instagram acount", guild=discord.Object(id=server_id)) 
+async def post_command(interaction: discord.Interaction, account: str):
+    await interaction.response.send_message("Recherche en cours...")
+    last_post = asyncio.run(get_post(account))
+    if last_post == "An error has occured, please retry in a few minutes.":
+        await interaction.channel.send(f'Cet utilisateur n\'existe pas ou n\'a pas fait de post.')
+    else:
+        await interaction.channel.send(f'Voici le dernier post de *{account}* : {last_post}')
+    
     
 #insta command --------------------------------------------------------------
     
@@ -91,7 +106,7 @@ async def insta_command(interaction: discord.Interaction, account: str):
     if get_posts == None:
         await interaction.response.send_message(f" \"{account}\" does not exist, please try again.")
     else:  
-        await interaction.response.send_message(f'{account} a fait {get_posts} post(s).')
+        await interaction.response.send_message(f'{account} a fait {get_posts} posts.')
     print(f'/insta =====> Posts sent for account {account}')
     
     
@@ -146,7 +161,6 @@ async def on_ready():
     channel_logs = log_channel_id
     
 async def lookup_refresh():
-    global post
     await bot.wait_until_ready()
     channel = bot.get_channel(notification_channel_id)
     while True:
@@ -161,10 +175,11 @@ async def lookup_refresh():
             if post < counters[i]:
                 counters[i] -= 1
             await asyncio.sleep(randint(counter_time_min, counter_time_max))
+        print(f'lookup tool =====> Turn have been complete. Going back to 0.')
 
 
 #----------------------------------------- important utilities -----------------------------------------#
-
+  
 loop_thread = threading.Thread(target=lambda: asyncio.run(lookup_refresh()))
 loop_thread.start()
 token = os.getenv("TOKEN")

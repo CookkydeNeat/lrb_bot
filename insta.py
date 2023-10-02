@@ -1,7 +1,6 @@
 #----------------------------------------- import modules -----------------------------------------#
 
 from setup import*
-from selenium import webdriver
 import requests, asyncio, nest_asyncio, pyppeteer
 nest_asyncio.apply()
 
@@ -17,10 +16,10 @@ def get_info(username):
             if account.text[location+i].isdigit():
                 result = result + account.text[location+i]
     return int(result)
-    
 
-# get post function: get the las post of any account      
-async def get_post(user):
+# get info function: get how many post does an instagram account made
+
+async def get_post(username):
     pageurl = f"https://www.instagram.com/{username}"
     result = ""
     browser = await pyppeteer.launch({"headless": True}, executablePath= chrome_path)
