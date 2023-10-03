@@ -87,11 +87,11 @@ async def avatar_command(interaction):
     print(f'/avatar =====> avatar sent to {interaction.user}')
     asyncio.run(logs_embed(f"Logs : /avatar",f"====> avatar sent to {interaction.user}"))
     
-#dev_command command --------------------------------------------------------------
+#debug_command command --------------------------------------------------------------
     
-@tree.command(name = "dev_command", description = "Return your avatar", guild=discord.Object(id=server_id)) 
-async def dev_command(interaction):
-    ...
+@tree.command(name = "debug_command", description = "Debug the bot", guild=discord.Object(id=server_id)) 
+async def debug_command(interaction):
+    await interaction.channel.send(f'**Debug report** \n lookup state = {lookup} \n setup state = {setup} \n chrome path = {chrome_path}')
         
     
 #post command --------------------------------------------------------------
