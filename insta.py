@@ -45,3 +45,7 @@ async def debug_pyppeteer():
     page = await browser.newPage()
     await browser.close()
     return("debug pyppeteer succefuly executed !")
+
+def debug_request():
+    account = requests.get(f'https://www.instagram.com/{username}')
+    print(account)
