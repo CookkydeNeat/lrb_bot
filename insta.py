@@ -12,7 +12,7 @@ def get_info(username):
     account = requests.get(f'https://www.instagram.com/{username}')
     if "Posts" in account.text:
         location = account.text.index("Posts")-8
-        for i in range(20):
+        for i in range(10):
             if account.text[location+i].isdigit():
                 result = result + account.text[location+i]
         result = int(result)
