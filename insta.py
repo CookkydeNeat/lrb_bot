@@ -12,11 +12,13 @@ def get_info(username):
     account = requests.get(f'https://www.instagram.com/{username}')
     if "Posts" in account.text:
         location = account.text.index("Posts")-8
-        for i in range(10):
+        for i in range(20):
             if account.text[location+i].isdigit():
                 result = result + account.text[location+i]
-                result = int(result)
-    return result
+        result = int(result)
+        return result
+    else:
+        return None
 
 # get info function: get how many post does an instagram account made
 

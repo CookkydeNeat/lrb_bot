@@ -86,6 +86,7 @@ async def avatar_command(interaction):
     await interaction.response.send_message(interaction.user.avatar.url)
     print(f'/avatar =====> avatar sent to {interaction.user}')
     asyncio.run(logs_embed(f"Logs : /avatar",f"====> avatar sent to {interaction.user}"))
+
     
 #debug_command command --------------------------------------------------------------
     
