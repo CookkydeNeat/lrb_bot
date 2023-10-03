@@ -22,7 +22,7 @@ def get_info(username):
 async def get_post(username):
     pageurl = f"https://www.instagram.com/{username}"
     result = ""
-    browser = await pyppeteer.launch({"headless": True}, executablePath= chrome_path)
+    browser = await pyppeteer.launch({"headless": False})
     page = await browser.newPage()
     await page.goto(pageurl)
     await asyncio.sleep(2)
@@ -36,3 +36,9 @@ async def get_post(username):
             result = result + cont[location+i]
         return(f'https://www.instagram.com{result}/')
 username = ""
+
+async def debug_pyppeteer():
+    browser = await pyppeteer.launch()
+    page = await browser.newPage()
+    await browser.close()
+    return("debug pyppeteer succefuly executed !")

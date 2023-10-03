@@ -89,9 +89,11 @@ async def avatar_command(interaction):
     
 #debug_command command --------------------------------------------------------------
     
-@tree.command(name = "debug_command", description = "Debug the bot", guild=discord.Object(id=server_id)) 
+@tree.command(name = "debug", description = "Debug the bot", guild=discord.Object(id=server_id)) 
 async def debug_command(interaction):
-    await interaction.response.send_message(f'**Debug report** \n lookup state = {lookup} \n setup state = {setup} \n chrome path = {chrome_path}')
+    await interaction.response.send_message(f'**Debug report** \n lookup state = {lookup} \n setup state = {setup}')
+    test_browser = asyncio.run(debug_pyppeteer())
+    await interaction.channel.send(test_browser) 
         
     
 #post command --------------------------------------------------------------
