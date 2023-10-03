@@ -117,11 +117,12 @@ async def post_command(interaction: discord.Interaction, account: str):
     
 @tree.command(name = "insta", description = "Return any account's post number", guild=discord.Object(id=server_id)) 
 async def insta_command(interaction: discord.Interaction, account: str):
+    await interaction.response.send_message("Recherche en cours...")
     get_posts = get_info(account)
     if get_posts == None:
-        await interaction.response.send_message(f" \"{account}\" does not exist, please try again.")
+        await interaction.channel.send(f" \"{account}\" n'existe pas, veuillez réessayer.")
     else:  
-        await interaction.response.send_message(f'{account} a fait {get_posts} posts.')
+        await interaction.channel.send(f'{account} a fait {get_posts} posts.')
     print(f'/insta =====> Posts sent for account {account}')
     asyncio.run(logs_embed(f"Logs : /insta",f"====> posts sent for account *{account}*"))
     
