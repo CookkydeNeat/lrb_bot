@@ -49,3 +49,4 @@ async def debug_pyppeteer():
 def debug_request():
     account = requests.get(f'https://www.instagram.com/{username}')
     print(account)
+    return("debug request succefuly executed !") 
