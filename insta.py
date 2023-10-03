@@ -8,10 +8,10 @@ nest_asyncio.apply()
 
 # get info function: get how many post does an instagram account made
 def get_info(username):
+    result=""
     account = requests.get(f'https://www.instagram.com/{username}')
     if "Posts" in account.text:
         location = account.text.index("Posts")-8
-        result=""
         for i in range(10):
             if account.text[location+i].isdigit():
                 result = result + account.text[location+i]
