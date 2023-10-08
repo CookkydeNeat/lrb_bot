@@ -23,6 +23,8 @@ counter_time_min = 15
 counter_time_max = 30
 
 #chrome.exe path 
-chrome_path = "/usr/bin/google-chrome"
+chrome_path = "pyppeteer/local-chromium/588429"
+
+
 
 
