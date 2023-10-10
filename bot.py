@@ -67,12 +67,10 @@ async def info_command(interaction):
 @tree.command(name="start", description="start the lookup tool", guild=discord.Object(id=server_id))
 async def test_command(interaction):
   global lookup
-  global setup
   if setup == False:
-    await interaction.response.send_message(
-        'Please setup targets before using the lookup tool.')
+    await interaction.response.send_message('Please setup targets before using the lookup tool.')
     print(f'/start =====> lookup tool couldn\'t be started')
-    asyncio.run(logs_embed(f"Logs : /start", f"====> lookup tool couldn\'t be started"))
+    asyncio.run(logs_embed(f"Logs : /start",f"====> lookup tool couldn\'t be started"))
   else:
     await interaction.response.send_message('Look-up tool is now active.')
     print(f'/start =====> lookup tool started')
@@ -102,13 +100,10 @@ async def debug_command(interaction):
 @tree.command(name="post", description="Get the last post of any instagram acount", guild=discord.Object(id=server_id))
 async def post_command(interaction: discord.Interaction, account: str):
   await interaction.response.send_message("Recherche en cours...")
-  last_post = asyncio.run(get_post(account))
-  if last_post == "An error has occured, please retry in a few minutes.":
-    await interaction.channel.send(f'Cet utilisateur n\'existe pas ou n\'a pas fait de post.')
-  else:
-    await interaction.channel.send(f'Voici le dernier post de *{account}* : {last_post}')
-    print(f'/insta =====> Last post of {account} sent')
-    asyncio.run(logs_embed(f"Logs : /post", f"====> last post of {account} sent"))
+  last_post = get_post(account)
+  await interaction.channel.send(f'Voici le dernier post de *{account}* : {last_post}')
+  print(f'/insta =====> Last post of {account} sent')
+  asyncio.run(logs_embed(f"Logs : /post", f"====> last post of {account} sent"))
 
 
 #insta command --------------------------------------------------------------
@@ -116,10 +111,7 @@ async def post_command(interaction: discord.Interaction, account: str):
 @tree.command(name="insta", description="Return any account's post number", guild=discord.Object(id=server_id))
 async def insta_command(interaction: discord.Interaction, account: str):
   get_posts = get_info(account)
-  if get_posts == None:
-    await interaction.response.send_message(f" \"{account}\" does not exist, please try again.")
-  else:
-    await interaction.response.send_message(f'{account} a fait {get_posts} posts.')
+  await interaction.response.send_message(f'{account} a fait {get_posts} posts.')
   print(f'/insta =====> Posts sent for account {account}')
   asyncio.run(logs_embed(f"Logs : /insta", f"====> posts sent for account *{account}*"))
 
@@ -155,13 +147,12 @@ async def setup_command(interaction):
   global setup
   await interaction.response.send_message('Setup started, please wait')
   print(f'/setup =====> setup started ({len(accounts)} targets)')
-  asyncio.run(
-      logs_embed(f"Logs : /setup", f"====> setup started ({len(accounts)} targets)"))
+  asyncio.run(logs_embed(f"Logs : /setup", f"====> setup started ({len(accounts)} targets)"))
   for i in range(len(accounts)):
     post = get_info(str(accounts[i]))
     counters[i] = post
-    await interaction.edit_original_response(
-        content=f"Setup started, please wait ({i+1}/{len(accounts)})")
+    time.sleep(1)
+    await interaction.edit_original_response(content=f"Setup started, please wait ({i+1}/{len(accounts)})")
   await interaction.channel.send(f' <{at}{interaction.user.id}>, all targets have been setup.')
   setup = True
   print(f'/setup =====> setup finished')
@@ -183,20 +174,16 @@ async def lookup_refresh():
   while True:
     for i in range(len(accounts)):
       print(f'lookup tool =====> user = {accounts[i]}, counter = {counters[i]}.')
-      asyncio.run(
-          logs_embed(f"Logs : lookup tool", f"====> user = {accounts[i]}, counter = {counters[i]}"))
+      asyncio.run(logs_embed(f"Logs : lookup tool", f"====> user = {accounts[i]}, counter = {counters[i]}"))
       post = get_info(accounts[i])
       if post > counters[i]:
         await channel.send(f' {accounts[i]} a une nouvelle publication ! \n {asyncio.run(get_post(accounts[i]))}')
-        asyncio.run(
-            logs_embed(f"Logs : lookup tool", f"====> {accounts[i]} a une nouvelle publication"))
+        asyncio.run(logs_embed(f"Logs : lookup tool", f"====> {accounts[i]} a une nouvelle publication"))
         counters[i] += 1
       if post < counters[i]:
         counters[i] -= 1
       await asyncio.sleep(randint(counter_time_min, counter_time_max))
     print(f'lookup tool =====> Turn have been complete. Going back to 0.')
-    asyncio.run(
-        logs_embed(f"Logs : lookup tool", f"====> turn have been complete. Going back to 0."))
 
 
 async def logs_embed(command, text):

@@ -5,7 +5,7 @@ COPY . /app
 
 WORKDIR /app
 
-RUN pip install install requests discord asyncio nest_asyncio python-dotenv pyppeteer
+RUN pip install install requests discord asyncio nest_asyncio python-dotenv instaloader
 
 # Add labels for better maintainability
 LABEL maintainer="Cookky <cookky.neat@gmail.com>"

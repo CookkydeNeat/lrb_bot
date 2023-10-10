@@ -19,11 +19,9 @@ log_channel_id = 1136689586886680628
 role_id = 1151520022439665696
 
 #time beetween 2 request - random to avoid bot siking
-counter_time_min = 15
-counter_time_max = 30
+counter_time_min = 60
+counter_time_max = 120
 
-#chrome.exe path 
-chrome_path = "pyppeteer/local-chromium/588429"
 
 
 
