@@ -70,7 +70,6 @@ async def start_command(interaction):
     asyncio.run(logs_embed(f"Logs : /start",f"====> lookup tool couldn\'t be started"))
   else:
     await interaction.response.send_message('Look-up tool is now active.')
-    print(f'/start =====> lookup tool started')
     asyncio.run(logs_embed(f"Logs : /start", f"====> lookup tool started"))
     lookup = True
     asyncio.run(lookup_refresh())
@@ -81,7 +80,6 @@ async def start_command(interaction):
 @tree.command(name="avatar", description="Return your avatar", guild=discord.Object(id=server_id))
 async def avatar_command(interaction):
   await interaction.response.send_message(interaction.user.avatar.url)
-  print(f'/avatar =====> avatar sent to {interaction.user}')
   asyncio.run(logs_embed(f"Logs : /avatar", f"====> avatar sent to {interaction.user}"))
 
 
@@ -184,6 +182,7 @@ async def lookup_refresh():
       asyncio.run(logs_embed(f"Logs : lookup tool", f"====> user = {accounts[i]}, counter = {counters[i]}"))
       post = get_info(accounts[i])
       if post > counters[i]:
+        await channel.send(f"<{at}&{role_id}>")
         await channel.send(f' {accounts[i]} a une nouvelle publication ! \n {asyncio.run(get_post(accounts[i]))}')
         asyncio.run(logs_embed(f"Logs : lookup tool", f"====> {accounts[i]} posted a new photo !"))
         counters[i] += 1
@@ -202,7 +201,6 @@ async def logs_embed(command, text):
     log_channel = bot.get_channel(log_channel_id)
     embedVar = discord.Embed(title=command, description=text, color=0x5765f2)
     embedVar.set_footer(text=current_time, icon_url=bot.user.avatar.url)
-    await log_channel.send(f"<{at}&{role_id}>")
     await log_channel.send(embed=embedVar)
 
 
