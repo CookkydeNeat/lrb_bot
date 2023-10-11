@@ -17,4 +17,4 @@ def get_post(username):
   bot = instaloader.Instaloader()
   posts = instaloader.Profile.from_username(bot.context, username).get_posts()
   for post in posts:
-    return(f"https://www.instagram.com/p/{post.shortcode}")
+    return f"https://www.instagram.com/p/{post.shortcode}" 
