@@ -17,7 +17,6 @@ tree = app_commands.CommandTree(bot)
 #----------------------------------------- global variables -----------------------------------------#
 
 at = '@'
-an = '&'
 lookup = False
 setup = False
 logs = 1
