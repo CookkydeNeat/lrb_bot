@@ -22,7 +22,6 @@ setup = False
 logs = 1
 
 #----------------------------------------- slash commands -----------------------------------------#
-
 # hello command --------------------------------------------------------------
 
 @tree.command(name="hello", description="Say you *hello*", guild=discord.Object(id=server_id))
@@ -80,6 +79,7 @@ async def start_command(interaction):
 @tree.command(name="avatar", description="Return your avatar", guild=discord.Object(id=server_id))
 async def avatar_command(interaction):
   await interaction.response.send_message(interaction.user.avatar.url)
+  print(f'/avatar =====> avatar sent to {interaction.user}')
   asyncio.run(logs_embed(f"Logs : /avatar", f"====> avatar sent to {interaction.user}"))
 
 
@@ -170,7 +170,7 @@ async def setup_command(interaction):
 @bot.event
 async def on_ready():
   print(f'{bot.user} is online !')
-  await bot.change_presence(activity=discord.Game(name="being coded"))
+  await bot.change_presence(activity=discord.Game(name="En ligne"))
   await tree.sync(guild=discord.Object(id=server_id))
   channel_logs = log_channel_id
     
@@ -181,6 +181,7 @@ async def lookup_refresh():
     for i in range(len(accounts)):
       asyncio.run(logs_embed(f"Logs : lookup tool", f"====> user = {accounts[i]}, counter = {counters[i]}"))
       post = get_info(accounts[i])
+      await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{accounts[i]}"))
       if post > counters[i]:
         await channel.send(f"<{at}&{role_id}>")
         await channel.send(f' {accounts[i]} a une nouvelle publication ! \n {asyncio.run(get_post(accounts[i]))}')
