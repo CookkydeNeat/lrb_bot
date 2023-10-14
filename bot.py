@@ -184,7 +184,7 @@ async def lookup_refresh():
       post = get_info(accounts[i])
       await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{accounts[i]}"))
       if post > counters[i]:
-        await channel.send(f' {accounts[i]} a une nouvelle publication ! \n {asyncio.run(get_post(accounts[i]))}')
+        await channel.send(f' {accounts[i]} a une nouvelle publication ! \n {get_post(accounts[i])}')
         asyncio.run(logs_embed(f"Logs : lookup tool", f"====> {accounts[i]} posted a new photo !"))
         counters[i] += 1
       if post < counters[i]:
