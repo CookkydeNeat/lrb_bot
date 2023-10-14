@@ -99,6 +99,7 @@ async def logs_states(interaction: discord.Interaction, state: int):
     await interaction.response.send_message(f'Logs are now : *off*')
     asyncio.run(logs_embed(f"Logs : /logs", f"====> Logs are now *off*"))
     logs = 0
+    asyncio.run(logs_embed(f"Logs : /logs", f"====> Logs are now off"))
   elif state == 1:
     await interaction.response.send_message(f'Logs are now : *on*')
     logs = 1
@@ -121,8 +122,7 @@ async def post_command(interaction: discord.Interaction, account: str):
 
 @tree.command(name="insta", description="Return any account's post number", guild=discord.Object(id=server_id))
 async def insta_command(interaction: discord.Interaction, account: str):
-  get_posts = get_info(account)
-  await interaction.response.send_message(f'{account} a fait {get_posts} posts.')
+  await interaction.response.send_message(f'{account} a fait {get_info(account)} posts.')
   asyncio.run(logs_embed(f"Logs : /insta", f"====> posts sent for account *{account}*"))
 
 
@@ -178,23 +178,24 @@ async def lookup_refresh():
   await bot.wait_until_ready()
   channel = bot.get_channel(notification_channel_id)
   while True:
+    await asyncio.sleep(randint(counter_time_min, counter_time_max))
     for i in range(len(accounts)):
       asyncio.run(logs_embed(f"Logs : lookup tool", f"====> user = {accounts[i]}, counter = {counters[i]}"))
       post = get_info(accounts[i])
       await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{accounts[i]}"))
       if post > counters[i]:
-        await channel.send(f"<{at}&{role_id}>")
         await channel.send(f' {accounts[i]} a une nouvelle publication ! \n {asyncio.run(get_post(accounts[i]))}')
         asyncio.run(logs_embed(f"Logs : lookup tool", f"====> {accounts[i]} posted a new photo !"))
         counters[i] += 1
       if post < counters[i]:
         counters[i] -= 1
-      await asyncio.sleep(randint(counter_time_min, counter_time_max))
+      await asyncio.sleep(randint(counter_time_min/20, counter_time_max/20))
 
 async def logs_embed(command, text):
   global logs
   if logs == 0:
-    print (command, text)
+    current_time = time.strftime("%H:%M:%S -- ", time.localtime())
+    print (current_time + command, text)
   elif logs == 1:
     channel_logs = log_channel_id
     await bot.wait_until_ready()
